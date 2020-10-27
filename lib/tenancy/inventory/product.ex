@@ -5,6 +5,7 @@ defmodule Tenancy.Inventory.Product do
   schema "products" do
     field :name, :string
     field :tenant_id, :integer
+    has_many :reviews, Tenancy.Inventory.Review
 
     timestamps()
   end

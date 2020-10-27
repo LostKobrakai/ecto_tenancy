@@ -38,6 +38,13 @@ defmodule TenancyWeb.Router do
 
     live "/products/:id", ProductLive.Show, :show, session: @live_mfa
     live "/products/:id/show/edit", ProductLive.Show, :edit, session: @live_mfa
+
+    live "/reviews", ReviewLive.Index, :index, session: @live_mfa
+    live "/reviews/new", ReviewLive.Index, :new, session: @live_mfa
+    live "/reviews/:id/edit", ReviewLive.Index, :edit, session: @live_mfa
+
+    live "/reviews/:id", ReviewLive.Show, :show, session: @live_mfa
+    live "/reviews/:id/show/edit", ReviewLive.Show, :edit, session: @live_mfa
   end
 
   # Other scopes may use custom stacks.
