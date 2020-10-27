@@ -18,6 +18,24 @@ defmodule TenancyWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+
+    live "/tenants", TenantLive.Index, :index
+    live "/tenants/new", TenantLive.Index, :new
+    live "/tenants/:id/edit", TenantLive.Index, :edit
+
+    live "/tenants/:id", TenantLive.Show, :show
+    live "/tenants/:id/show/edit", TenantLive.Show, :edit
+  end
+
+  scope "/", TenancyWeb do
+    pipe_through :browser
+
+    live "/products", ProductLive.Index, :index
+    live "/products/new", ProductLive.Index, :new
+    live "/products/:id/edit", ProductLive.Index, :edit
+
+    live "/products/:id", ProductLive.Show, :show
+    live "/products/:id/show/edit", ProductLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
