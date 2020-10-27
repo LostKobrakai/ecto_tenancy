@@ -24,6 +24,7 @@
           <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
         </a>
       </section>
+      <%= if assigns[:tenant_id], do: tenant_select(@tenant_id) %>
     </header>
     <%= @inner_content %>
   </body>

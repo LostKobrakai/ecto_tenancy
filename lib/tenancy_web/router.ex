@@ -27,15 +27,17 @@ defmodule TenancyWeb.Router do
     live "/tenants/:id/show/edit", TenantLive.Show, :edit
   end
 
+  @live_mfa {__MODULE__, :live_session, []}
+
   scope "/", TenancyWeb do
-    pipe_through :browser
+    pipe_through [:browser, :tenant_id_session]
 
-    live "/products", ProductLive.Index, :index
-    live "/products/new", ProductLive.Index, :new
-    live "/products/:id/edit", ProductLive.Index, :edit
+    live "/products", ProductLive.Index, :index, session: @live_mfa
+    live "/products/new", ProductLive.Index, :new, session: @live_mfa
+    live "/products/:id/edit", ProductLive.Index, :edit, session: @live_mfa
 
-    live "/products/:id", ProductLive.Show, :show
-    live "/products/:id/show/edit", ProductLive.Show, :edit
+    live "/products/:id", ProductLive.Show, :show, session: @live_mfa
+    live "/products/:id/show/edit", ProductLive.Show, :edit, session: @live_mfa
   end
 
   # Other scopes may use custom stacks.
@@ -57,5 +59,24 @@ defmodule TenancyWeb.Router do
       pipe_through :browser
       live_dashboard "/dashboard", metrics: TenancyWeb.Telemetry
     end
+  end
+
+  def tenant_id_session(conn, _) do
+    tenant_id =
+      cond do
+        id = conn.query_params["tenant"] -> String.to_integer(id)
+        id = get_session(conn, :tenant_id) -> id
+        true -> 0
+      end
+
+    Tenancy.Repo.put_tenant_id(tenant_id)
+
+    conn
+    |> put_session(:tenant_id, tenant_id)
+    |> assign(:tenant_id, tenant_id)
+  end
+
+  def live_session(_conn) do
+    %{"tenant_id" => Tenancy.Repo.get_tenant_id()}
   end
 end

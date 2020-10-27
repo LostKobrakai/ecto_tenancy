@@ -2,6 +2,8 @@ defmodule Tenancy.TenantManagement.Tenant do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Phoenix.Param, key: :tenant_id}
+  @primary_key {:tenant_id, :id, autogenerate: true}
   schema "tenants" do
     field :name, :string
 

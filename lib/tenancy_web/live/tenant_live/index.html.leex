@@ -2,7 +2,7 @@
 
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, TenancyWeb.TenantLive.FormComponent,
-    id: @tenant.id || :new,
+    id: @tenant.tenant_id || :new,
     title: @page_title,
     action: @live_action,
     tenant: @tenant,
@@ -19,13 +19,13 @@
   </thead>
   <tbody id="tenants">
     <%= for tenant <- @tenants do %>
-      <tr id="tenant-<%= tenant.id %>">
+      <tr id="tenant-<%= tenant.tenant_id %>">
         <td><%= tenant.name %></td>
 
         <td>
           <span><%= live_redirect "Show", to: Routes.tenant_show_path(@socket, :show, tenant) %></span>
           <span><%= live_patch "Edit", to: Routes.tenant_index_path(@socket, :edit, tenant) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: tenant.id, data: [confirm: "Are you sure?"] %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: tenant.tenant_id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>
     <% end %>

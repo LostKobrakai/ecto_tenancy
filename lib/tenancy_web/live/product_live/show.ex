@@ -4,7 +4,8 @@ defmodule TenancyWeb.ProductLive.Show do
   alias Tenancy.Inventory
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, %{"tenant_id" => id}, socket) do
+    Tenancy.Repo.put_tenant_id(id)
     {:ok, socket}
   end
 

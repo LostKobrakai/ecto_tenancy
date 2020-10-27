@@ -52,6 +52,7 @@ defmodule Tenancy.Inventory do
   def create_product(attrs \\ %{}) do
     %Product{}
     |> Product.changeset(attrs)
+    |> Product.set_tenant(Repo.get_tenant_id())
     |> Repo.insert()
   end
 

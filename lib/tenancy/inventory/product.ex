@@ -4,6 +4,7 @@ defmodule Tenancy.Inventory.Product do
 
   schema "products" do
     field :name, :string
+    field :tenant_id, :integer
 
     timestamps()
   end
@@ -13,5 +14,10 @@ defmodule Tenancy.Inventory.Product do
     product
     |> cast(attrs, [:name])
     |> validate_required([:name])
+  end
+
+  @doc false
+  def set_tenant(product, tenant_id) do
+    change(product, tenant_id: tenant_id)
   end
 end
